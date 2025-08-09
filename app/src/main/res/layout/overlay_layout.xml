@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/overlay_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#88000000"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:elevation="10dp">
+
+    <TextView
+        android:id="@+id/site1_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Parking Site 1"
+        android:textSize="12sp"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/site1_spaces"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Spaces Left: 10"
+        android:textSize="24sp"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/site2_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Parking Site 2"
+        android:textSize="12sp"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/site2_spaces"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Spaces Left: 7"
+        android:textSize="24sp"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

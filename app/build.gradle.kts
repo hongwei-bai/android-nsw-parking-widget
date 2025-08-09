@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -16,6 +19,18 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Load local.properties
+        val localPropertiesFile = rootProject.file("local.properties")
+        val localProperties = Properties().apply {
+            if (localPropertiesFile.exists()) {
+                load(FileInputStream(localPropertiesFile))
+            }
+        }
+
+        val apiKey = localProperties.getProperty("api.key.parking", "")
+
+        buildConfigField("String", "PARKING_API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -36,6 +51,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -49,6 +65,20 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-service:2.5.0-rc02")
+    implementation("androidx.navigation:navigation-compose:2.5.0-rc02")
+    // Retrofit core
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // Retrofit Gson converter (for JSON serialization/deserialization)
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // OkHttp client (Retrofit uses this internally)
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+
+    // Optional: OkHttp logging interceptor (for logging HTTP requests/responses)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
