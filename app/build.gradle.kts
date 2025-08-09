@@ -31,6 +31,11 @@ android {
         val apiKey = localProperties.getProperty("api.key.parking", "")
 
         buildConfigField("String", "PARKING_API_KEY", "\"$apiKey\"")
+
+        buildConfigField("String", "PARKING_PRESET_1_NAME", "\"${localProperties.getProperty("parking.preset.1.name", "ParkingA")}\"")
+        buildConfigField("int", "PARKING_PRESET_1_Y", localProperties.getProperty("parking.preset.1.y", "1000"))
+        buildConfigField("String", "PARKING_PRESET_2_NAME", "\"${localProperties.getProperty("parking.preset.2.name", "ParkingB")}\"")
+        buildConfigField("int", "PARKING_PRESET_2_Y", localProperties.getProperty("parking.preset.2.y", "2000"))
     }
 
     buildTypes {
