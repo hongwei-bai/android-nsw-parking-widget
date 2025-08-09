@@ -1,4 +1,4 @@
-package com.example.parkingwidget
+package com.melondemo.parkingwidget
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.example.parkingwidget
+package com.melondemo.parkingwidget
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

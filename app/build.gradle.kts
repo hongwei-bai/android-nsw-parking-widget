@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.parkingwidget"
+    namespace = "com.melondemo.parkingwidget"
     compileSdk = 35
 
     defaultConfig {

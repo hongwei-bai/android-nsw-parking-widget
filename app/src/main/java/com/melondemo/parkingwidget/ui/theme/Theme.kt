@@ -1,4 +1,4 @@
-package com.example.parkingwidget.ui.theme
+package com.melondemo.parkingwidget.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
