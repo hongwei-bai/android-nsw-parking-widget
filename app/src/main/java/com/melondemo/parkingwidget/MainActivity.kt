@@ -1,5 +1,6 @@
 package com.melondemo.parkingwidget
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -9,20 +10,28 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.melondemo.parkingwidget.data.CarParkRepository
@@ -98,62 +107,100 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun OverlayControls(modifier: Modifier = Modifier) {
         val apiTestResult by CarParkRepository.state.collectAsState()
-        Column(
-            modifier = modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Spacer(modifier = Modifier.height(300.dp))
-            Button(onClick = {
-                if (Settings.canDrawOverlays(this@MainActivity)) {
-                    startOverlayService(1)
-                } else {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Please grant overlay permission first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    requestOverlayPermission()
+
+        // Use Scaffold for top overlay space + bottom controls
+        Scaffold(
+            containerColor = MaterialTheme.colorScheme.background,
+            bottomBar = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .padding(horizontal = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Button(
+                        onClick = { handleOverlayAction(1, true) },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFCA840)),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Show ${ParkingInfo.name1}", color = Color.White)
+                    }
+
+                    OutlinedButton(
+                        onClick = { handleOverlayAction(1, false) },
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF0D1B41)),
+                        border = BorderStroke(1.dp, Color(0xFFFCA840)),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Hide ${ParkingInfo.name1}")
+                    }
+
+                    Button(
+                        onClick = { handleOverlayAction(2, true) },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD83B92)),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Show ${ParkingInfo.name2}", color = Color.White)
+                    }
+
+                    OutlinedButton(
+                        onClick = { handleOverlayAction(2, false) },
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF0D1B41)),
+                        border = BorderStroke(1.dp, Color(0xFFD83B92)),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Hide ${ParkingInfo.name2}")
+                    }
+
+                    Button(
+                        onClick = {
+                            GlobalScope.launch(Dispatchers.IO) {
+                                CarParkRepository.fetchCarParkData()
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1BB39E)),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Test API", color = Color.White)
+                    }
+
+                    Text(
+                        apiTestResult,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
                 }
-            }) {
-                Text("Show ${ParkingInfo.name1}")
             }
-
-            Button(onClick = {
-                stopOverlayService(1)
-            }) {
-                Text("Hide ${ParkingInfo.name1}")
+        ) { innerPadding ->
+            // Top empty space for overlay
+            Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxWidth()
+                    .height(300.dp)
+                    .background(Color.Transparent)
+            ) {
+                // Could show an app title or branding here
+                Text(
+                    text = "🍈 Melon Parking App",
+                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(16.dp)
+                )
             }
+        }
+    }
 
-            Button(onClick = {
-                if (Settings.canDrawOverlays(this@MainActivity)) {
-                    startOverlayService(2)
-                } else {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Please grant overlay permission first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    requestOverlayPermission()
-                }
-            }) {
-                Text("Show ${ParkingInfo.name2}")
-            }
-
-            Button(onClick = {
-                stopOverlayService(2)
-            }) {
-                Text("Hide ${ParkingInfo.name2}")
-            }
-
-            Button(onClick = {
-                GlobalScope.launch(Dispatchers.IO) {
-                    CarParkRepository.fetchCarParkData()
-                }
-            }) {
-                Text("Test Api")
-            }
-
-            Text(apiTestResult)
+    private fun Context.handleOverlayAction(slot: Int, show: Boolean) {
+        if (Settings.canDrawOverlays(this)) {
+            if (show) startOverlayService(slot) else stopOverlayService(slot)
+        } else {
+            Toast.makeText(this, "Please grant overlay permission first", Toast.LENGTH_SHORT).show()
+            requestOverlayPermission()
         }
     }
 }
