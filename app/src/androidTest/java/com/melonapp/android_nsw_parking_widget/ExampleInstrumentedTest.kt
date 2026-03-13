@@ -1,4 +1,4 @@
-package com.melondemo.parkingwidget
+package com.melonapp.android_nsw_parking_widget
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.android_nsw_parking_widget_wizard", appContext.packageName)
+        assertEquals("com.melonapp.android_nsw_parking_widget", appContext.packageName)
     }
 }

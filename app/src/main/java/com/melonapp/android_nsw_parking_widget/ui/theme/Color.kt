@@ -1,4 +1,4 @@
-package com.melondemo.parkingwidget.ui.theme
+package com.melonapp.android_nsw_parking_widget.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

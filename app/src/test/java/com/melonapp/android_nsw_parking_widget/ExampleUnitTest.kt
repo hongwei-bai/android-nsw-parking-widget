@@ -1,4 +1,4 @@
-package com.melondemo.parkingwidget
+package com.melonapp.android_nsw_parking_widget
 
 import org.junit.Test
 
