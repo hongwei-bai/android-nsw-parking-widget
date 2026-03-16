@@ -10,7 +10,7 @@ interface TfNswApiService {
     @GET("v1/carpark")
     suspend fun getAllCarParks(
         @Header("Authorization") auth: String
-    ): Response<List<CarParkResponse>>
+    ): Response<Map<String, String>>
 
     @GET("v1/carpark")
     suspend fun getCarParkById(
