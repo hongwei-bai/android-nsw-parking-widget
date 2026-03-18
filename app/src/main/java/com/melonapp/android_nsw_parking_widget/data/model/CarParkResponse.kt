@@ -3,7 +3,7 @@ package com.melonapp.android_nsw_parking_widget.data.model
 import com.google.gson.annotations.SerializedName
 
 /**
- * Represents the detailed response for a specific car park facility.
+ * Represents the detailed response for a speci66fic car park facility.
  */
 data class CarParkResponse(
     @SerializedName("facility_id") val facilityId: String,

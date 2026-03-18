@@ -16,7 +16,7 @@ object RetrofitClient {
         .addInterceptor(logging)
         .build()
 
-    val instance: TfNswApiService by lazy {
+    val apiService: TfNswApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
