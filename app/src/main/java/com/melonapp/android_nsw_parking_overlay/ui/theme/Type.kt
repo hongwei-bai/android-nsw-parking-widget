@@ -1,4 +1,4 @@
-package com.melonapp.android_nsw_parking_widget.ui.theme
+package com.melonapp.android_nsw_parking_overlay.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

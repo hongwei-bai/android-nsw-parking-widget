@@ -22,6 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "android-nsw-parking-widget"
+rootProject.name = "android-nsw-parking-overlay"
 include(":app")
  

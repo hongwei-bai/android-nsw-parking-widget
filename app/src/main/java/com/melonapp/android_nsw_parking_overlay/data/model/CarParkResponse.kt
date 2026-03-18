@@ -1,4 +1,4 @@
-package com.melonapp.android_nsw_parking_widget.data.model
+package com.melonapp.android_nsw_parking_overlay.data.model
 
 import com.google.gson.annotations.SerializedName
 

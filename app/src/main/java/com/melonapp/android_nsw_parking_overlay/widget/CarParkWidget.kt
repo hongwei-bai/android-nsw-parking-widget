@@ -1,9 +1,7 @@
-package com.melonapp.android_nsw_parking_widget.widget
+package com.melonapp.android_nsw_parking_overlay.widget
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
@@ -14,20 +12,15 @@ import androidx.glance.layout.*
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import androidx.glance.appwidget.updateAll
 import androidx.glance.background
 import androidx.glance.text.FontWeight
-import com.melonapp.android_nsw_parking_widget.data.DataStoreManager
-import com.melonapp.android_nsw_parking_widget.data.api.RetrofitClient
-import com.melonapp.android_nsw_parking_widget.data.repository.CarParkRepository
-import com.melonapp.android_nsw_parking_widget.ui.SelectedCarPark
+import com.melonapp.android_nsw_parking_overlay.data.DataStoreManager
+import com.melonapp.android_nsw_parking_overlay.data.api.RetrofitClient
+import com.melonapp.android_nsw_parking_overlay.data.repository.CarParkRepository
+import com.melonapp.android_nsw_parking_overlay.ui.SelectedCarPark
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.first
-import androidx.glance.ColorFilter
-import androidx.glance.Image
-import androidx.glance.ImageProvider
-import com.melonapp.android_nsw_parking_widget.R
 
 class CarParkWidget : GlanceAppWidget() {
 

@@ -1,4 +1,4 @@
-package com.melonapp.android_nsw_parking_widget
+package com.melonapp.android_nsw_parking_overlay
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,21 +8,30 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.material3.*
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalTextToolbar
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.platform.TextToolbar
+import androidx.compose.ui.platform.TextToolbarStatus
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.melonapp.android_nsw_parking_widget.data.DataStoreManager
-import com.melonapp.android_nsw_parking_widget.data.api.RetrofitClient
-import com.melonapp.android_nsw_parking_widget.data.repository.CarParkRepository
-import com.melonapp.android_nsw_parking_widget.ui.CarParkViewModel
-import com.melonapp.android_nsw_parking_widget.ui.CarParkViewModelFactory
-import com.melonapp.android_nsw_parking_widget.ui.theme.AndroidnswparkingwidgetTheme
+import com.melonapp.android_nsw_parking_overlay.data.DataStoreManager
+import com.melonapp.android_nsw_parking_overlay.data.api.RetrofitClient
+import com.melonapp.android_nsw_parking_overlay.data.repository.CarParkRepository
+import com.melonapp.android_nsw_parking_overlay.ui.CarParkViewModel
+import com.melonapp.android_nsw_parking_overlay.ui.CarParkViewModelFactory
+import com.melonapp.android_nsw_parking_overlay.ui.theme.AndroidnswparkingoverlayTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,16 +43,16 @@ class MainActivity : ComponentActivity() {
         val factory = CarParkViewModelFactory(repository, dataStoreManager)
 
         setContent {
-            AndroidnswparkingwidgetTheme {
+            AndroidnswparkingoverlayTheme {
                 val viewModel: CarParkViewModel = viewModel(factory = factory)
-                AndroidnswparkingwidgetApp(viewModel)
+                AndroidnswparkingoverlayApp(viewModel)
             }
         }
     }
 }
 
 @Composable
-fun AndroidnswparkingwidgetApp(viewModel: CarParkViewModel) {
+fun AndroidnswparkingoverlayApp(viewModel: CarParkViewModel) {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
     val uiState by viewModel.uiState.collectAsState()
 
@@ -77,19 +86,54 @@ fun AndroidnswparkingwidgetApp(viewModel: CarParkViewModel) {
 }
 
 @Composable
-fun HomeScreen(viewModel: CarParkViewModel, uiState: com.melonapp.android_nsw_parking_widget.ui.CarParkUiState) {
+fun HomeScreen(viewModel: CarParkViewModel, uiState: com.melonapp.android_nsw_parking_overlay.ui.CarParkUiState) {
     var apiKeyInput by remember { mutableStateOf(uiState.apiKey) }
+    var apiKeyVisible by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text("Configuration", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
-        
-        OutlinedTextField(
-            value = apiKeyInput,
-            onValueChange = { apiKeyInput = it },
-            label = { Text("Transport for NSW API Key") },
-            modifier = Modifier.fillMaxWidth()
-        )
+
+        // Prevent copy/cut/paste toolbar from appearing for the API key field.
+        val noTextToolbar = remember {
+            object : TextToolbar {
+                override val status: TextToolbarStatus = TextToolbarStatus.Hidden
+                override fun hide() = Unit
+                override fun showMenu(
+                    rect: Rect,
+                    onCopyRequested: (() -> Unit)?,
+                    onPasteRequested: (() -> Unit)?,
+                    onCutRequested: (() -> Unit)?,
+                    onSelectAllRequested: (() -> Unit)?
+                ) = Unit
+            }
+        }
+
+        CompositionLocalProvider(LocalTextToolbar provides noTextToolbar) {
+            DisableSelection {
+                OutlinedTextField(
+                    value = apiKeyInput,
+                    onValueChange = { apiKeyInput = it },
+                    label = { Text("Transport for NSW API Key") },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    visualTransformation = if (apiKeyVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        autoCorrectEnabled = false
+                    ),
+                    trailingIcon = {
+                        IconButton(onClick = { apiKeyVisible = !apiKeyVisible }) {
+                            val iconRes = if (apiKeyVisible) android.R.drawable.ic_menu_view else android.R.drawable.ic_menu_close_clear_cancel
+                            Icon(
+                                painter = painterResource(iconRes),
+                                contentDescription = if (apiKeyVisible) "Hide API Key" else "Show API Key"
+                            )
+                        }
+                    }
+                )
+            }
+        }
         Button(
             onClick = { viewModel.setApiKey(apiKeyInput) },
             modifier = Modifier.padding(top = 8.dp)
@@ -135,7 +179,7 @@ fun HomeScreen(viewModel: CarParkViewModel, uiState: com.melonapp.android_nsw_pa
 }
 
 @Composable
-fun FavoritesScreen(viewModel: CarParkViewModel, uiState: com.melonapp.android_nsw_parking_widget.ui.CarParkUiState) {
+fun FavoritesScreen(viewModel: CarParkViewModel, uiState: com.melonapp.android_nsw_parking_overlay.ui.CarParkUiState) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text("Selected Car Parks", style = MaterialTheme.typography.headlineMedium)
         Text("Max 3 allowed for widget", style = MaterialTheme.typography.bodySmall)
@@ -163,7 +207,7 @@ fun FavoritesScreen(viewModel: CarParkViewModel, uiState: com.melonapp.android_n
 }
 
 @Composable
-fun ProfileScreen(viewModel: CarParkViewModel, uiState: com.melonapp.android_nsw_parking_widget.ui.CarParkUiState) {
+fun ProfileScreen(viewModel: CarParkViewModel, uiState: com.melonapp.android_nsw_parking_overlay.ui.CarParkUiState) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Text("NSW Parking Widget App")
         Text("Version 1.0")

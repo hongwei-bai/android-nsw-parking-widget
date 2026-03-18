@@ -1,10 +1,7 @@
-package com.melonapp.android_nsw_parking_widget.data.repository
+package com.melonapp.android_nsw_parking_overlay.data.repository
 
-import com.melonapp.android_nsw_parking_widget.data.api.TfNswApiService
-import com.melonapp.android_nsw_parking_widget.data.model.CarParkResponse
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import retrofit2.Response
+import com.melonapp.android_nsw_parking_overlay.data.api.TfNswApiService
+import com.melonapp.android_nsw_parking_overlay.data.model.CarParkResponse
 
 class CarParkRepository(private val apiService: TfNswApiService) {
 

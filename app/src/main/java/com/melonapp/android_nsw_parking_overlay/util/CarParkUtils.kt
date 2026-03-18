@@ -1,4 +1,4 @@
-package com.melonapp.android_nsw_parking_widget.util
+package com.melonapp.android_nsw_parking_overlay.util
 
 object CarParkUtils {
     private val nameToAbbrMap = mapOf(

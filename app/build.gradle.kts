@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.melonapp.android_nsw_parking_widget"
+    namespace = "com.melonapp.android_nsw_parking_overlay"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.melonapp.android_nsw_parking_widget"
+        applicationId = "com.melonapp.android_nsw_parking_overlay"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

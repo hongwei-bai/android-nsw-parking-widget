@@ -1,4 +1,4 @@
-package com.melonapp.android_nsw_parking_widget.data
+package com.melonapp.android_nsw_parking_overlay.data
 
 import android.content.Context
 import androidx.datastore.core.DataStore

@@ -1,11 +1,11 @@
-package com.melonapp.android_nsw_parking_widget.ui
+package com.melonapp.android_nsw_parking_overlay.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.melonapp.android_nsw_parking_widget.data.DataStoreManager
-import com.melonapp.android_nsw_parking_widget.data.model.CarParkResponse
-import com.melonapp.android_nsw_parking_widget.data.repository.CarParkRepository
-import com.melonapp.android_nsw_parking_widget.util.CarParkUtils
+import com.melonapp.android_nsw_parking_overlay.data.DataStoreManager
+import com.melonapp.android_nsw_parking_overlay.data.model.CarParkResponse
+import com.melonapp.android_nsw_parking_overlay.data.repository.CarParkRepository
+import com.melonapp.android_nsw_parking_overlay.util.CarParkUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.MutableStateFlow

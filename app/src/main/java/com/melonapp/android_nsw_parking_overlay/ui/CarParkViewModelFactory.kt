@@ -1,9 +1,9 @@
-package com.melonapp.android_nsw_parking_widget.ui
+package com.melonapp.android_nsw_parking_overlay.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.melonapp.android_nsw_parking_widget.data.DataStoreManager
-import com.melonapp.android_nsw_parking_widget.data.repository.CarParkRepository
+import com.melonapp.android_nsw_parking_overlay.data.DataStoreManager
+import com.melonapp.android_nsw_parking_overlay.data.repository.CarParkRepository
 
 class CarParkViewModelFactory(
     private val repository: CarParkRepository,

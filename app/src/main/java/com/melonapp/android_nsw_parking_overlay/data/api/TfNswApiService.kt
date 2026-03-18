@@ -1,6 +1,6 @@
-package com.melonapp.android_nsw_parking_widget.data.api
+package com.melonapp.android_nsw_parking_overlay.data.api
 
-import com.melonapp.android_nsw_parking_widget.data.model.CarParkResponse
+import com.melonapp.android_nsw_parking_overlay.data.model.CarParkResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header

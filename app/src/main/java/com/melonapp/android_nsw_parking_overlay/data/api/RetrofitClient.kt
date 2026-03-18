@@ -1,4 +1,4 @@
-package com.melonapp.android_nsw_parking_widget.data.api
+package com.melonapp.android_nsw_parking_overlay.data.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

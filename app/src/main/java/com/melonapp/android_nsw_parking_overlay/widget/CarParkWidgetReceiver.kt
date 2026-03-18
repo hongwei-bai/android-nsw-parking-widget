@@ -1,4 +1,4 @@
-package com.melonapp.android_nsw_parking_widget.widget
+package com.melonapp.android_nsw_parking_overlay.widget
 
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
