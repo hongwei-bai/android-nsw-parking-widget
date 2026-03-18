@@ -29,7 +29,14 @@ data class CarParkUiState(
     val selectedCarParks: List<SelectedCarPark> = emptyList(),
     val errorMessage: String? = null,
     val hasOverlayPermission: Boolean = false,
-    val apiKey: String = ""
+    val apiKey: String = "",
+
+    val overlayRefreshIntervalMs: Long = 30_000L,
+    val overlayThresholdLow: Int = 10,
+    val overlayThresholdMid: Int = 30,
+    val overlayColorRedArgb: Int = 0xFFFF3B30.toInt(),
+    val overlayColorOrangeArgb: Int = 0xFFFF9500.toInt(),
+    val overlayColorGreenArgb: Int = 0xFF34C759.toInt()
 )
 
 class CarParkViewModel(
@@ -61,11 +68,59 @@ class CarParkViewModel(
                 }
             }
         }
+        viewModelScope.launch {
+            dataStoreManager.overlayRefreshIntervalMs.collectLatest { value ->
+                _uiState.update { it.copy(overlayRefreshIntervalMs = value) }
+            }
+        }
+        viewModelScope.launch {
+            dataStoreManager.overlayThresholdLow.collectLatest { value ->
+                _uiState.update { it.copy(overlayThresholdLow = value) }
+            }
+        }
+        viewModelScope.launch {
+            dataStoreManager.overlayThresholdMid.collectLatest { value ->
+                _uiState.update { it.copy(overlayThresholdMid = value) }
+            }
+        }
+        viewModelScope.launch {
+            dataStoreManager.overlayColorRed.collectLatest { value ->
+                _uiState.update { it.copy(overlayColorRedArgb = value) }
+            }
+        }
+        viewModelScope.launch {
+            dataStoreManager.overlayColorOrange.collectLatest { value ->
+                _uiState.update { it.copy(overlayColorOrangeArgb = value) }
+            }
+        }
+        viewModelScope.launch {
+            dataStoreManager.overlayColorGreen.collectLatest { value ->
+                _uiState.update { it.copy(overlayColorGreenArgb = value) }
+            }
+        }
     }
 
     fun setApiKey(key: String) {
         viewModelScope.launch {
             dataStoreManager.saveApiKey(key)
+        }
+    }
+
+    fun setOverlayRefreshIntervalMs(value: Long) {
+        viewModelScope.launch {
+            dataStoreManager.saveOverlayRefreshIntervalMs(value)
+        }
+    }
+
+    fun setOverlayThresholds(low: Int, mid: Int) {
+        viewModelScope.launch {
+            dataStoreManager.saveOverlayThresholds(low = low, mid = mid)
+        }
+    }
+
+    fun setOverlayColors(redArgb: Int, orangeArgb: Int, greenArgb: Int) {
+        viewModelScope.launch {
+            dataStoreManager.saveOverlayColors(red = redArgb, orange = orangeArgb, green = greenArgb)
         }
     }
 
