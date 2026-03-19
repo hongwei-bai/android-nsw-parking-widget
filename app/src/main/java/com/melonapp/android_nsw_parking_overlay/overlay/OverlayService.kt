@@ -280,16 +280,17 @@ class OverlayService : Service() {
         val orange = runCatching { dataStoreManager.overlayColorOrange.first() }.getOrDefault(0xFFFF9500.toInt())
         val green = runCatching { dataStoreManager.overlayColorGreen.first() }.getOrDefault(0xFF34C759.toInt())
 
-        fun apply(tv: TextView, spots: Int?) {
+                        fun apply(tv: TextView, spots: Int?) {
             if (spots == null) return
-            val (color, bold) = when {
+            val (color, isBold) = when {
                 spots == 0 -> red to true
                 spots <= low -> red to false
                 spots <= mid -> orange to false
                 else -> green to false
             }
             tv.setTextColor(color)
-            tv.setTypeface(tv.typeface, if (bold) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL)
+            val style = if (isBold) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL
+            tv.setTypeface(null, style)
         }
 
         apply(line1, carParks.getOrNull(0)?.availableSpots)

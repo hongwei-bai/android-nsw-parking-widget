@@ -73,7 +73,8 @@ fun AndroidnswparkingoverlayApp(viewModel: CarParkViewModel) {
                     icon = {
                         Icon(
                             painterResource(it.icon),
-                            contentDescription = it.label
+                            contentDescription = it.label,
+                            modifier = Modifier.size(24.dp)
                         )
                     },
                     label = { Text(it.label) },
@@ -487,7 +488,7 @@ fun FavoritesScreen(viewModel: CarParkViewModel, uiState: com.melonapp.android_n
 fun ProfileScreen(viewModel: CarParkViewModel, uiState: com.melonapp.android_nsw_parking_overlay.ui.CarParkUiState) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Text("P Overlay: NSW Commute Park")
-        Text("Version 1.0")
+        Text("Version 0.1")
     }
 }
 
